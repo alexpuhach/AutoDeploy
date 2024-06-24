@@ -26,3 +26,12 @@ jobs:
 
     - name: Run tests
       run: pytest
+
+    - name: Make deploy script executable
+      run: chmod +x deploy_to_test.sh
+
+    - name: Deploy to test environment
+      run: ./deploy_to_test.sh
+
+    - name: Debug message
+      run: echo "Deploy to Test Environment workflow completed successfully."

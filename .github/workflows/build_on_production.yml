@@ -23,5 +23,11 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
+    - name: Make build script executable
+      run: chmod +x build_production.sh
+
     - name: Build production version
       run: ./build_production.sh
+
+    - name: Debug message
+      run: echo "Build on Production Server workflow completed successfully."

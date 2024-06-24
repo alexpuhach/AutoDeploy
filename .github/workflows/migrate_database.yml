@@ -24,8 +24,14 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
+    - name: Make migrate script executable
+      run: chmod +x manage.py
+
     - name: Migrate database
       run: python manage.py migrate
+
+    - name: Make configuration script executable
+      run: chmod +x configure_production.sh
 
     - name: Run configuration scripts
       run: ./configure_production.sh
