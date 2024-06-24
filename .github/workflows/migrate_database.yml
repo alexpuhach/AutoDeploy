@@ -1,0 +1,31 @@
+name: Migrate Database and Run Configuration Scripts
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build on Production Server"]
+    types:
+      - completed
+
+jobs:
+  migrate:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Migrate database
+      run: python manage.py migrate
+
+    - name: Run configuration scripts
+      run: ./configure_production.sh
