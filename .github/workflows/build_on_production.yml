@@ -1,0 +1,27 @@
+name: Build on Production Server
+
+on:
+  workflow_run:
+    workflows: ["Deploy to Test Environment"]
+    types:
+      - completed
+
+jobs:
+  build:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Build production version
+      run: ./build_production.sh
